@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Ariiah/miss-tea/issues"
   },
-  "homepage": "https://github.com/Ariiah/miss-tea#readme"
+  "homepage": "https://github.com/Ariiah/miss-tea#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "watson-developer-cloud": "^3.4.5"
+  }
 }
