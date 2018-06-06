@@ -1,24 +1,28 @@
 const axios = require('axios')
-require('dotenv').config();
-
-const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
 const fs = require('fs')
+const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 
-const textToSpeech = new TextToSpeechV1({
-  username: '041c85e0-e0d7-4cce-b093-3bcf4347d84c',
-  password: 'rS7qqVaNHB1Z'
-})
+require('dotenv').config()
 
-const synthesizeParams = {
-  text: 'help',
-  accept: 'audio/mp3',
-  voice: 'en-US_AllisonVoice'
+function obtainMp3({ filename, speechString }) {
+  const textToSpeech = new TextToSpeechV1({
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD
+  })
+  
+  const synthesizeParams = {
+    text: speechString,
+    accept: 'audio/mp3',
+    voice: 'en-US_AllisonVoice'
+  }
+  
+  // Pipe the synthesized text to a file.
+  textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
+    console.log(error);
+  }).pipe(fs.createWriteStream(filename))
 }
 
-// Pipe the synthesized text to a file.
-textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
-  console.log(error);
-}).pipe(fs.createWriteStream('disguise.mp3'))
+obtainMp3({ filename: 'target.mp3', speechString: 'When you stare into the abyss the abyss stares back at you.' })
 
 // BYTE ARRAY
 
