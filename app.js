@@ -20,6 +20,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PATCH, DELETE, PUT')
+  res.header('Referrer-Policy', 'no-referrer')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
+  }
+  else {
+    next()
+  }
+})
+
 app.use('/tts', ttsRoute);
 app.use('/led', ledRoute);
 app.use('/disco', discoRoute);
