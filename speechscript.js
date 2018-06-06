@@ -4,6 +4,8 @@ const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 
 require('dotenv').config()
 
+const tempMp3Filename = 'temp.mp3'
+
 function obtainMp3({ filename, speechString }) {
   const textToSpeech = new TextToSpeechV1({
     username: process.env.USERNAME,
@@ -22,11 +24,99 @@ function obtainMp3({ filename, speechString }) {
   }).pipe(fs.createWriteStream(filename))
 }
 
-obtainMp3({ filename: 'target.mp3', speechString: 'When you stare into the abyss the abyss stares back at you.' })
-
 // BYTE ARRAY
+function read(sourceFilename) {
+  const path = sourceFilename
+  // file is a ArrayBuffer
+  const file = fs.readFileSync(path)
+  console.log(file)
+  const b = Buffer.from(file)
 
+  // ab refers to the undlying ArrayBuffer created with b.
+  const ab = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
 
+  // Turns the buffer in unsigned integer 8 array string
+  const ui8 = new Uint8Array(b.buffer, b.byteOffset, b.byteLength / Uint8Array.BYTES_PER_ELEMENT).toString()
+
+  // Resolves the promise and returns the ui8 string
+  return ui8
+}
+
+obtainMp3({ filename: tempMp3Filename, speechString: 'Hello Boulder.' })
+
+const result = read(tempMp3Filename)
+console.log(result)
+
+/* 
+const fs = require("fs");
+
+module.exports = {
+  filenamesInDir(directory) {
+    return new Promise((resolve, reject) => {
+      fs.readdir(directory, (err, files) => {
+        if (err) {
+          reject(err)
+        }
+        else if (files.length === 0){
+          reject("Nothing found in " + dn);
+        }
+        else {
+          resolve(files);
+        }
+      });
+    });
+  },
+
+  fileContents(filename) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        flag: "r",
+        encoding: "utf-8"
+      };
+
+      fs.readFile(filename, options, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(data);
+        }
+      });
+    });
+  },
+
+  writeFile(filename, data) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        flag: "w",
+        encoding: "utf-8"
+      };
+
+      fs.writeFile(filename, data, options, (err) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(true);
+        }
+      });
+    });
+  },
+
+  eraseFile(filename) {
+    return new Promise((resolve,reject) => {
+      fs.unlink(filename, (err) => {
+        if (err) {
+          reject(err)
+        }
+        else {
+          resolve(true);
+        }
+      });
+    });
+  }
+};
+*/
 
 // MISTY CALLS
 
