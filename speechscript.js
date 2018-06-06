@@ -1,8 +1,8 @@
 const axios = require('axios')
-require('dotenv').config();
-
 const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
 const fs = require('fs')
+
+require('dotenv').config()
 
 const textToSpeech = new TextToSpeechV1({
   username: '041c85e0-e0d7-4cce-b093-3bcf4347d84c',
