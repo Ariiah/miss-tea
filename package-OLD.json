@@ -1,0 +1,23 @@
+{
+  "name": "miss-tea",
+  "version": "1.0.0",
+  "description": "",
+  "main": "disco.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ariiah/miss-tea.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ariiah/miss-tea/issues"
+  },
+  "homepage": "https://github.com/Ariiah/miss-tea#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "watson-developer-cloud": "^3.4.5"
+  }
+}
