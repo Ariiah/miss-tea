@@ -1,14 +1,7 @@
 {
-<<<<<<< HEAD
-  "name": "miss-tea",
-  "version": "1.0.0",
-  "description": "",
-  "main": "Main.js",
-=======
   "name": "misty-express",
   "version": "0.0.0",
   "private": true,
->>>>>>> d9d54e666a8b647a60bb9f06303c00cdcd3ac8db
   "scripts": {
     "start": "node ./bin/www"
   },
