@@ -7,7 +7,7 @@ function partyTime(red, yellow, blue) {
     url: 'http://10.9.21.211:80/api/audio/play',
     method: 'post',
     data: {
-      AssetId: "MrMeeseeks.wav"
+      AssetId: "shortoto.mp3"
     }
   })
 
@@ -15,7 +15,7 @@ function partyTime(red, yellow, blue) {
     url: 'http://10.9.21.211:80/api/images/change',
     method: 'post',
     data: {
-      FileName: "mrmee.jpg"
+      FileName: "happy.jpg"
     }
   })
 
@@ -25,7 +25,7 @@ function partyTime(red, yellow, blue) {
     data: {
       LinearVelocity: 0,
       AngularVelocity: 100,
-      TimeMS: 100
+      TimeMS: 10000
     }
   }).then(() => {
     axios({
@@ -53,16 +53,18 @@ function changeColor(red, green, blue) {
 }
 
 router.get('/', (req, res, next) => {
+  partyTime()
+  const discoCounts = 100
+  let discoCount = 0
 
-  // changeColor()
-  // partyTime()
-
-  let counter = 100
   let red = 50
   let green = 150
   let blue = 255
 
+  let myInterval = setInterval(discoParty, 100)
+
   function discoParty() {
+    if(discoCount++ >= discoCounts) clearInterval(myInterval)
 
     if (red >= 255) {
       red -= 255
@@ -74,14 +76,12 @@ router.get('/', (req, res, next) => {
       blue -= 255
     }
 
-    // changeColor(red, green, blue)
-
+    changeColor(red, green, blue)
     red += 50
     green += 50
     blue += 50
   }
 
-  // let myInterval = setInterval(discoParty, 100)
 
   res.send('Disco function goes here. You spin me around.')
 })

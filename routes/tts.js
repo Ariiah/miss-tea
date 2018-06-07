@@ -79,6 +79,12 @@ async function talk() {
   })
 }
 
+<<<<<<< HEAD
+=======
+
+  talk()
+
+>>>>>>> 01ffd1a5a12d9b0bce5797b6b7b375b4b61167f5
 
 
 router.get('/', (req, res, next) => {

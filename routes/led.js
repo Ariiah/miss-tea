@@ -17,12 +17,17 @@ function changeColor(red, green, blue) {
 
 router.get('/', (req, res, next) => {
 
+  const discoCounts = 100
+  let discoCount = 0
+
   let red = 50
   let green = 150
   let blue = 255
 
+  let myInterval = setInterval(discoParty, 100)
+
   function discoParty() {
-    console.log(red)
+    if(discoCount++ >= discoCounts) clearInterval(myInterval)
 
     if (red >= 255) {
       red -= 255
@@ -41,7 +46,6 @@ router.get('/', (req, res, next) => {
     blue += 50
   }
 
-  let myInterval = setInterval(discoParty, 100)
   res.send('LED Function goes here')
 })
 
