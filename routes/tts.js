@@ -7,7 +7,7 @@ const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 require('dotenv').config()
 
 const tempMp3Filename = 'temp.mp3'
-
+console.log('USERNAME:', process.env.USERNAME);
 function obtainMp3({filename, speechString}) {
   return new Promise((resolve, reject) => {
     const textToSpeech = new TextToSpeechV1({username: process.env.USERNAME, password: process.env.PASSWORD})
@@ -18,11 +18,6 @@ function obtainMp3({filename, speechString}) {
       voice: 'en-US_AllisonVoice'
     }
 
-    // Pipe the synthesized text to a file.
-    // textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
-    //   console.log(error);
-    // }).pipe(fs.createWriteStream(filename))
-    //
     const writable = fs.createWriteStream('./temp.mp3')
     textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
     }).pipe(writable)
@@ -85,9 +80,9 @@ async function talk() {
 }
 
 
+readAndWrite()
 
 router.get('/', (req, res, next) => {
-  readAndWrite()
   talk()
 
   res.send('TTS function goes here.')
