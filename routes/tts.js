@@ -55,7 +55,7 @@ async function readAndWrite(textToSay) {
 // MISTY CALLS
 
 async function talk() {
-  const dataByte = await readAndWrite("YAY I'M ALIVE")
+  const dataByte = await readAndWrite("test")
   axios({
     url: 'http://10.9.21.211:80/api/audio',
     method: 'post',
@@ -79,17 +79,10 @@ async function talk() {
   })
 }
 
-<<<<<<< HEAD
-=======
-
-  talk()
-
->>>>>>> 01ffd1a5a12d9b0bce5797b6b7b375b4b61167f5
-
-
 router.get('/', (req, res, next) => {
+  
+  readAndWrite()
 
-  talk()
   res.send('TTS function goes here.')
 })
 
