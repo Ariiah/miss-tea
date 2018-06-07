@@ -5,10 +5,14 @@ const fs = require('fs')
 const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 const execSync = require('child_process').execSync
 
-require('dotenv').config()
 
 const tempMp3Filename = 'temp.mp3'
-function obtainMp3({filename, speechString}) {
+
+function obtainMp3(fname, speechString) {
+  console.log('process.env.USERNAME', process.env.USERNAME)
+  console.log('process.env.PASSWORD', process.env.PASSWORD)
+  console.log('speechString', speechString)
+
   return new Promise((resolve, reject) => {
     const textToSpeech = new TextToSpeechV1({username: process.env.USERNAME, password: process.env.PASSWORD})
 
@@ -18,23 +22,23 @@ function obtainMp3({filename, speechString}) {
       voice: 'en-US_AllisonVoice'
     }
 
-    const writable = fs.createWriteStream('temp.mp3')
-    textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
-    }).pipe(writable)
+    const writable = fs.createWriteStream(fname)
+    textToSpeech.synthesize(synthesizeParams).on('error', function(error) {}).pipe(writable)
 
-    writable.on('error', (err) => {
+    writable
+    .on('error', (err) => {
       (err)
-    }).on('finish', function() {
+    })
+    .on('finish', function() {
       resolve("success")
     })
   })
 }
 
 // BYTE ARRAY
-function read() {
-  const path = 'temp.mp3'
+function read(fname) {
   // file is a ArrayBuffer
-  const file = fs.readFileSync(path)
+  const file = fs.readFileSync(fname)
   const b = Buffer.from(file)
   // ab refers to the undlying ArrayBuffer created with b.
   const ab = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
@@ -46,23 +50,30 @@ function read() {
 }
 
 async function readAndWrite(textToSay) {
-  const writeFile = await obtainMp3({ filename: tempMp3Filename, speechString: `${textToSay}` })
-  execSync("ffmpeg -i temp.mp3 -af 'volume=5' temp.mp3 -y")
-  return read(tempMp3Filename)
+  // Have Watson API convert text to mp3 file
+  const writeFile = await obtainMp3(tempMp3Filename, textToSay)
+
+  // Invoke FFMPEG to boost volume
+  execSync(`ffmpeg -i ${tempMp3Filename} -af 'volume=7' ${tempMp3Filename} -y`)
+
+  // convert mp3 file to string of bytes
+  let byteArrayString = read(tempMp3Filename)
+
+  return byteArrayString
 }
 
 
 // MISTY CALLS
 
-async function talk() {
-  const dataByte = await readAndWrite("test")
+async function talk(textToSay) {
+  const byteString = await readAndWrite(textToSay)
   axios({
     url: 'http://10.9.21.211:80/api/audio',
     method: 'post',
     crossDomain: true,
     data: {
-      "FilenameWithoutPath": "temp.mp3",
-      "DataAsByteArrayString": dataByte,
+      "FilenameWithoutPath": tempMp3Filename,
+      "DataAsByteArrayString": byteString,
       "ImmediatelyApply": false,
       "OverwriteExisting": true
     }
@@ -73,17 +84,23 @@ async function talk() {
       crossDomain: true,
       method: 'post',
       data: {
-        AssetId: 'temp.mp3'
+        AssetId: tempMp3Filename
       }
     })
   })
 }
 
-router.get('/', (req, res, next) => {
-  
-  readAndWrite()
 
-  res.send('TTS function goes here.')
+// Diagnostic
+router.get('/', (req, res, next) => {
+  talk('do the thing')
+  res.send('TTS diagnostic')
+})
+
+router.post('/', (req, res, next) => {
+  console.log('post body', req.body)
+  talk(req.body.message)
+  res.send('TTS POST ROUTE SUCCESS')
 })
 
 module.exports = router
