@@ -47,7 +47,7 @@ function read() {
 
 async function readAndWrite(textToSay) {
   const writeFile = await obtainMp3({ filename: tempMp3Filename, speechString: `${textToSay}` })
-  execSync("ffmpeg -i temp.mp3 -af 'volume=5' temp.mp3 -y")
+  execSync("ffmpeg -i temp.mp3 -af 'volume=7' temp.mp3 -y")
   return read(tempMp3Filename)
 }
 
@@ -55,7 +55,7 @@ async function readAndWrite(textToSay) {
 // MISTY CALLS
 
 async function talk() {
-  const dataByte = await readAndWrite("test")
+  const dataByte = await readAndWrite("I am Italian")
   axios({
     url: 'http://10.9.21.211:80/api/audio',
     method: 'post',
@@ -80,9 +80,7 @@ async function talk() {
 }
 
 router.get('/', (req, res, next) => {
-  
-  readAndWrite()
-
+  talk()
   res.send('TTS function goes here.')
 })
 
