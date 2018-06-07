@@ -83,10 +83,10 @@ async function talk() {
 }
 
 
-talk()
 
 router.get('/', (req, res, next) => {
   readAndWrite()
+  talk()
 
   res.send('TTS function goes here.')
 })

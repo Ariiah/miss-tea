@@ -16,11 +16,6 @@ function obtainMp3({filename, speechString}) {
       voice: 'en-US_AllisonVoice'
     }
 
-    // Pipe the synthesized text to a file.
-    // textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
-    //   console.log(error);
-    // }).pipe(fs.createWriteStream(filename))
-    //
     const writable = fs.createWriteStream('./temp.mp3')
     textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
     }).pipe(writable)
