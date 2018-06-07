@@ -64,6 +64,7 @@ async function talk() {
   axios({
     url: 'http://10.9.21.211:80/api/audio',
     method: 'post',
+    crossDomain: true,
     data: {
       "FilenameWithoutPath": "temp.mp3",
       "DataAsByteArrayString": dataByte,
@@ -74,6 +75,7 @@ async function talk() {
   .then(() => {
     axios({
       url: 'http://10.9.21.211:80/api/audio/play',
+      crossDomain: true,
       method: 'post',
       data: {
         AssetId: 'temp.mp3'
@@ -82,11 +84,12 @@ async function talk() {
   })
 }
 
-readAndWrite()
-
+  talk()
 
 router.get('/', (req, res, next) => {
-  talk()
+
+  readAndWrite()
+
 
   res.send('TTS function goes here.')
 })
