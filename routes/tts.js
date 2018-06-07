@@ -3,6 +3,7 @@ const router = express.Router()
 const axios = require('axios')
 const fs = require('fs')
 const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
+const execSync = require('child_process').execSync
 
 require('dotenv').config()
 
@@ -44,17 +45,17 @@ function read() {
   return ui8
 }
 
-async function readAndWrite() {
-  const writeFile = await obtainMp3({ filename: tempMp3Filename, speechString: 'Testing 1 2 3' })
-  const result = read(tempMp3Filename)
-  return result
+async function readAndWrite(textToSay) {
+  const writeFile = await obtainMp3({ filename: tempMp3Filename, speechString: `${textToSay}` })
+  execSync("ffmpeg -i temp.mp3 -af 'volume=5' temp.mp3 -y")
+  return read(tempMp3Filename)
 }
 
 
 // MISTY CALLS
 
 async function talk() {
-  const dataByte = await readAndWrite()
+  const dataByte = await readAndWrite("YAY I'M ALIVE")
   axios({
     url: 'http://10.9.21.211:80/api/audio',
     method: 'post',
@@ -78,12 +79,11 @@ async function talk() {
   })
 }
 
-talk()
+
 
 router.get('/', (req, res, next) => {
 
-  readAndWrite()
-
+  talk()
   res.send('TTS function goes here.')
 })
 
