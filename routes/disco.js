@@ -7,7 +7,7 @@ function partyTime(red, yellow, blue) {
     url: 'http://10.9.21.211:80/api/audio/play',
     method: 'post',
     data: {
-      AssetId: "MrMeeseeks.wav"
+      AssetId: "8toto.mp3"
     }
   })
 
@@ -15,7 +15,7 @@ function partyTime(red, yellow, blue) {
     url: 'http://10.9.21.211:80/api/images/change',
     method: 'post',
     data: {
-      FileName: "mrmee.jpg"
+      FileName: "happy.jpg"
     }
   })
 
@@ -25,7 +25,7 @@ function partyTime(red, yellow, blue) {
     data: {
       LinearVelocity: 0,
       AngularVelocity: 100,
-      TimeMS: 100
+      TimeMS: 10000
     }
   }).then(() => {
     axios({
