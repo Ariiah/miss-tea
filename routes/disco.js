@@ -54,8 +54,8 @@ function changeColor(red, green, blue) {
 
 router.get('/', (req, res, next) => {
 
-  changeColor()
-  partyTime()
+  // changeColor()
+  // partyTime()
 
   let counter = 100
   let red = 50
@@ -63,7 +63,6 @@ router.get('/', (req, res, next) => {
   let blue = 255
 
   function discoParty() {
-    console.log(counter)
 
     if (red >= 255) {
       red -= 255
@@ -75,14 +74,14 @@ router.get('/', (req, res, next) => {
       blue -= 255
     }
 
-    changeColor(red, green, blue)
+    // changeColor(red, green, blue)
 
     red += 50
     green += 50
     blue += 50
   }
 
-  let myInterval = setInterval(discoParty, 100)
+  // let myInterval = setInterval(discoParty, 100)
 
   res.send('Disco function goes here. You spin me around.')
 })

@@ -42,7 +42,6 @@ router.get('/', (req, res, next) => {
   }
 
   let myInterval = setInterval(discoParty, 100)
-
   res.send('LED Function goes here')
 })
 
