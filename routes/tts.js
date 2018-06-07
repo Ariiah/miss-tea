@@ -79,11 +79,11 @@ async function talk() {
   })
 }
 
-
-readAndWrite()
+talk()
 
 router.get('/', (req, res, next) => {
-  talk()
+
+  readAndWrite()
 
   res.send('TTS function goes here.')
 })
