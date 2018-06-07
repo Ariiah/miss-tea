@@ -7,7 +7,6 @@ const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 require('dotenv').config()
 
 const tempMp3Filename = 'temp.mp3'
-console.log('USERNAME:', process.env.USERNAME);
 function obtainMp3({filename, speechString}) {
   return new Promise((resolve, reject) => {
     const textToSpeech = new TextToSpeechV1({username: process.env.USERNAME, password: process.env.PASSWORD})
@@ -18,7 +17,7 @@ function obtainMp3({filename, speechString}) {
       voice: 'en-US_AllisonVoice'
     }
 
-    const writable = fs.createWriteStream('./temp.mp3')
+    const writable = fs.createWriteStream('temp.mp3')
     textToSpeech.synthesize(synthesizeParams).on('error', function(error) {
     }).pipe(writable)
 
@@ -32,7 +31,7 @@ function obtainMp3({filename, speechString}) {
 
 // BYTE ARRAY
 function read() {
-  const path = './temp.mp3'
+  const path = 'temp.mp3'
   // file is a ArrayBuffer
   const file = fs.readFileSync(path)
   const b = Buffer.from(file)
