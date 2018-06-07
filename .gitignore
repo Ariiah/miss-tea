@@ -62,3 +62,6 @@ typings/
 .DS_Store
 yarn.lock
 package-lock.json
+
+# Ignore the MP3
+*.mp3
