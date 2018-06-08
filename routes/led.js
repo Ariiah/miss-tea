@@ -27,7 +27,8 @@ router.get('/', (req, res, next) => {
   let myInterval = setInterval(discoParty, 100)
 
   function discoParty() {
-    if(discoCount++ >= discoCounts) clearInterval(myInterval)
+    if (discoCount++ >= discoCounts)
+      clearInterval(myInterval)
 
     if (red >= 255) {
       red -= 255
