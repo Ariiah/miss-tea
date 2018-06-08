@@ -7,7 +7,7 @@ function partyTime(red, yellow, blue) {
     url: 'http://10.9.21.211:80/api/audio/play',
     method: 'post',
     data: {
-      AssetId: "shortoto.mp3"
+      AssetId: "8toto.mp3"
     }
   })
 
@@ -24,8 +24,8 @@ function partyTime(red, yellow, blue) {
     method: 'post',
     data: {
       LinearVelocity: 0,
-      AngularVelocity: 100,
-      TimeMS: 10000
+      AngularVelocity: 75,
+      TimeMS: 25000
     }
   }).then(() => {
     axios({
