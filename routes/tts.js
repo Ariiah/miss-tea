@@ -5,10 +5,7 @@ const fs = require('fs')
 const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 const execSync = require('child_process').execSync
 
-
 const tempMp3Filename = 'temp.mp3'
-// const volume = 5
-// console.log(volume);
 
 function obtainMp3(fname, speechString) {
   console.log('speechString', speechString)
@@ -62,7 +59,6 @@ async function readAndWrite(textToSay, volume) {
   return byteArrayString
 }
 
-
 // MISTY CALLS
 
 async function talk(textToSay, volume) {
@@ -89,7 +85,6 @@ async function talk(textToSay, volume) {
     })
   })
 }
-
 
 // Diagnostic
 router.get('/', (req, res, next) => {
