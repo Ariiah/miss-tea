@@ -7,10 +7,10 @@ const execSync = require('child_process').execSync
 
 
 const tempMp3Filename = 'temp.mp3'
+// const volume = 5
+// console.log(volume);
 
 function obtainMp3(fname, speechString) {
-  console.log('process.env.USERNAME', process.env.USERNAME)
-  console.log('process.env.PASSWORD', process.env.PASSWORD)
   console.log('speechString', speechString)
 
   return new Promise((resolve, reject) => {
@@ -49,12 +49,12 @@ function read(fname) {
   return ui8
 }
 
-async function readAndWrite(textToSay) {
+async function readAndWrite(textToSay, volume) {
   // Have Watson API convert text to mp3 file
   const writeFile = await obtainMp3(tempMp3Filename, textToSay)
 
   // Invoke FFMPEG to boost volume
-  execSync(`ffmpeg -i ${tempMp3Filename} -af 'volume=7' ${tempMp3Filename} -y`)
+  execSync(`ffmpeg -i ${tempMp3Filename} -af 'volume=${volume}' ${tempMp3Filename} -y`)
 
   // convert mp3 file to string of bytes
   let byteArrayString = read(tempMp3Filename)
@@ -65,8 +65,8 @@ async function readAndWrite(textToSay) {
 
 // MISTY CALLS
 
-async function talk(textToSay) {
-  const byteString = await readAndWrite(textToSay)
+async function talk(textToSay, volume) {
+  const byteString = await readAndWrite(textToSay, volume)
   axios({
     url: 'http://10.9.21.211:80/api/audio',
     method: 'post',
@@ -99,7 +99,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   console.log('post body', req.body)
-  talk(req.body.message)
+  talk(req.body.message, req.body.volume)
   res.send('TTS POST ROUTE SUCCESS')
 })
 
