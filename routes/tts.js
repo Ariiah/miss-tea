@@ -22,11 +22,9 @@ function obtainMp3(fname, speechString) {
     const writable = fs.createWriteStream(fname)
     textToSpeech.synthesize(synthesizeParams).on('error', function(error) {}).pipe(writable)
 
-    writable
-    .on('error', (err) => {
+    writable.on('error', (err) => {
       (err)
-    })
-    .on('finish', function() {
+    }).on('finish', function() {
       resolve("success")
     })
   })
@@ -73,8 +71,7 @@ async function talk(textToSay, volume) {
       "ImmediatelyApply": false,
       "OverwriteExisting": true
     }
-  })
-  .then(() => {
+  }).then(() => {
     axios({
       url: 'http://10.9.21.211:80/api/audio/play',
       crossDomain: true,
